@@ -1,45 +1,25 @@
 package hello;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class GreetingController {
 
-	private static String content = "";
+    private static final String template = "dupa";
+    private final AtomicLong counter = new AtomicLong();
 
-    @RequestMapping(path = "/file", method = {RequestMethod.POST})
-    public String greeting(@RequestParam(value="line") String line) {
-    	content = line;
+    @RequestMapping("/greeting")
+    public String greeting(@RequestParam(value="name", defaultValue="World") String name) {
         return "Hello";
 }
     
-    @RequestMapping(path="/file", method = {RequestMethod.GET})
-    public String greeting2(){
-        return content ;
-        
-        
+    @RequestMapping("/greeting/{name}")
+    public String greeting7(@PathVariable(value="name") String name) {
+        return "Hello " + name;
 }
-    public static void main(String[] args) throws IOException {
-    	File file = new File("test.txt");
-    	
-    	try (Writer writer = new FileWriter(file)){
-    	
-    	writer.write("fdfdfd"+ System.lineSeparator());
-    	} catch (IOException ex){
-    		ex.printStackTrace();
-    		
-    	}
-    	
-    }
-    
 }
